@@ -2,210 +2,1116 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nitro - إيقاف مؤقت</title>
-
-<!-- استيراد الخط العربي الجديد من Google Fonts -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nitro AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    /* تم استبدال Segoe UI بالخط العربي الجديد */
-    font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
-    background: #0d0d12;
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(120, 60, 255, 0.15), transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(255, 60, 120, 0.12), transparent 40%);
-    color: #eaeaea;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow: hidden;
-  }
-
-  .card {
-    max-width: 620px;
-    width: 100%;
-    background: rgba(20, 20, 28, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 45px 35px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-    animation: cardIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  }
-
-  .card::before {
-    content: "";
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      rgba(122, 61, 255, 0.10) 90deg,
-      transparent 180deg,
-      rgba(255, 61, 120, 0.10) 270deg,
-      transparent 360deg
-    );
-    animation: spinGlow 12s linear infinite;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .card > * { position: relative; z-index: 1; }
-
-  .badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #7a3dff, #ff3d78);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 16px;
-    border-radius: 999px;
-    margin-bottom: 22px;
-    letter-spacing: 0.5px;
-    animation: fadeUp 0.8s ease 0.2s both, pulseBadge 2.4s ease-in-out 1.2s infinite;
-  }
-
-  h1 {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #ffffff;
-    line-height: 1.5;
-    animation: fadeUp 0.8s ease 0.35s both;
-  }
-
-  .line {
-    font-size: 16px;
-    line-height: 1.9;
-    color: #c9c9d4;
-    margin-bottom: 14px;
-    animation: fadeUp 0.8s ease both;
-  }
-
-  .line:nth-of-type(1) { animation-delay: 0.5s; }
-  .line:nth-of-type(2) { animation-delay: 0.65s; }
-  .line:nth-of-type(3) { animation-delay: 0.8s; }
-
-  .highlight {
-    color: #b48cff;
-    font-weight: 600;
-    display: inline-block;
-    animation: glowText 2.6s ease-in-out infinite;
-  }
-
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    margin: 25px 0;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.8s ease 0.55s both;
-  }
-
-  .divider::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -40%;
-    width: 40%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(180, 140, 255, 0.9), transparent);
-    animation: shimmer 3s ease-in-out infinite;
-  }
-
-  .footer-note {
-    font-size: 15px;
-    color: #9a9aa8;
-    line-height: 1.8;
-    animation: fadeUp 0.8s ease 1s both;
-  }
-
-  .footer-note strong {
-    color: #ffffff;
-    animation: glowText 2.6s ease-in-out infinite;
-  }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(30px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes spinGlow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  @keyframes pulseBadge {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(122, 61, 255, 0.45); }
-    50%      { box-shadow: 0 0 0 10px rgba(122, 61, 255, 0); }
-  }
-
-  @keyframes glowText {
-    0%, 100% { text-shadow: 0 0 0 rgba(180, 140, 255, 0); }
-    50%      { text-shadow: 0 0 12px rgba(180, 140, 255, 0.65); }
-  }
-
-  @keyframes shimmer {
-    0%   { left: -40%; }
-    60%  { left: 100%; }
-    100% { left: 100%; }
-  }
-
-  @media (max-width: 480px) {
-    .card { padding: 35px 22px; }
-    h1 { font-size: 21px; }
-    .line { font-size: 14.5px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition: none !important;
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
     }
-  }
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #212121;
+        color: #ececec;
+        font-family: 'Noto Naskh Arabic', 'Georgia', serif;
+    }
+
+    /* =========================================
+       شاشة تسجيل الدخول
+       ========================================= */
+    #loginScreen {
+        position: fixed;
+        inset: 0;
+        background-color: #121212;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+    }
+    .login-box {
+        background-color: #212121;
+        padding: 30px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 400px;
+        border: 1px solid #333;
+        text-align: center;
+    }
+    .login-box h2 { margin-bottom: 20px; color: #fff; font-family: 'Georgia', serif;}
+    .login-box input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #444;
+        background-color: #2f2f2f;
+        color: #fff;
+        font-family: inherit;
+        outline: none;
+    }
+    .login-box input:focus { border-color: #00d4ff; }
+    .login-box button {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background-color: #ececec;
+        color: #121212;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.2s;
+    }
+    .login-box button:hover { background-color: #ccc; }
+    .login-error { color: #ff4d4d; margin-bottom: 15px; font-size: 0.9rem; display: none; }
+
+    /* =========================================
+       واجهة التطبيق
+       ========================================= */
+    .app-container {
+        display: none; /* مخفي حتى تسجيل الدخول */
+        flex-direction: column;
+        width: 100%;
+        height: 100dvh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* شريط السرعة */
+    .speed-bar {
+        position: absolute;
+        top: 62px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: transparent;
+        z-index: 999;
+        overflow: hidden;
+        display: none;
+    }
+    .speed-bar.active { display: block; }
+    .speed-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -50%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, #ececec, transparent);
+        animation: nitro-speed 0.6s linear infinite;
+    }
+    @keyframes nitro-speed {
+        0% { right: -50%; }
+        100% { right: 100%; }
+    }
+
+    /* الترويسة العلوية */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background-color: #212121;
+        border-bottom: 1px solid #333;
+        flex-shrink: 0;
+        height: 62px;
+        z-index: 1000;
+    }
+    
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    .menu-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        transition: background 0.2s;
+    }
+    .menu-btn:hover { background-color: #333; }
+    .menu-btn svg { width: 24px; height: 24px; fill: #ececec; }
+
+    .header-title {
+        font-family: 'Georgia', serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-size: 0.8rem;
+        color: #aaa;
+    }
+    .user-info span { color: #00d4ff; font-weight: bold; }
+    
+    .credits-badge {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background-color: #2f2f2f;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid #444;
+        font-weight: bold;
+        color: #00d4ff;
+    }
+    .credits-badge svg { width: 18px; height: 18px; fill: #00d4ff; }
+
+    /* القائمة الجانبية */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 1999;
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    .sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+    .sidebar {
+        position: fixed;
+        top: 0; right: -300px;
+        width: 280px; height: 100%;
+        background-color: #1a1a1a;
+        border-left: 1px solid #333;
+        z-index: 2000;
+        transition: right 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    }
+    .sidebar.show { right: 0; }
+
+    .sidebar-header { padding: 16px; border-bottom: 1px solid #333; }
+    .new-chat-btn {
+        width: 100%;
+        background-color: #2f2f2f;
+        border: 1px solid #444;
+        color: #ececec;
+        padding: 10px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background 0.2s;
+    }
+    .new-chat-btn:hover { background-color: #3f3f3f; }
+
+    .admin-btn {
+        background-color: #4a1c40;
+        border-color: #7c3aed;
+        color: #e879f9;
+        margin-top: 10px;
+    }
+    .admin-btn:hover { background-color: #5b2150; }
+
+    .chat-list {
+        flex: 1; overflow-y: auto; padding: 12px;
+        display: flex; flex-direction: column; gap: 8px;
+    }
+    .chat-list::-webkit-scrollbar { width: 4px; }
+    .chat-list::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+
+    .chat-item {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 12px; border-radius: 8px; cursor: pointer;
+        transition: background 0.2s; color: #aaa; font-size: 0.9rem;
+    }
+    .chat-item:hover { background-color: #2a2a2a; color: #fff; }
+    .chat-item.active { background-color: #333; color: #fff; border: 1px solid #444; }
+
+    .chat-title {
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        flex: 1; text-align: right; direction: rtl;
+    }
+
+    .delete-chat-btn {
+        background: transparent; border: none; color: #888; cursor: pointer;
+        padding: 4px; border-radius: 4px; display: none;
+        align-items: center; justify-content: center;
+    }
+    .chat-item:hover .delete-chat-btn { display: flex; }
+    .delete-chat-btn:hover { color: #ff4d4d; background-color: rgba(255, 77, 77, 0.1); }
+    .delete-chat-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* منطقة المحادثة */
+    .chat-area {
+        flex: 1; overflow-y: auto; overflow-x: hidden; padding: 20px;
+        display: flex; flex-direction: column; gap: 20px;
+    }
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+
+    .message {
+        display: flex; flex-direction: column; width: 100%; max-width: 100%;
+        line-height: 1.8; font-size: 1.05rem;
+        word-wrap: break-word; overflow-wrap: break-word; min-width: 0;
+    }
+    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message.ai { align-self: flex-start; align-items: flex-start; }
+
+    .bubble {
+        padding: 12px 16px; border-radius: 12px; max-width: 100%; overflow: hidden;
+    }
+    .user .bubble {
+        background-color: #2f2f2f; color: #ececec;
+        border-bottom-right-radius: 4px; max-width: 88%;
+    }
+    .ai .bubble {
+        background-color: transparent; color: #ececec;
+        padding: 0; width: 100%;
+    }
+
+    .ai .bubble p { margin-bottom: 12px; }
+    .ai .bubble p:last-child { margin-bottom: 0; }
+
+    /* تصميم كتل الأكواد */
+    .ai .bubble pre {
+        background-color: #171717;
+        padding: 14px;
+        padding-top: 45px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 12px 0;
+        border: 1px solid #444;
+        direction: ltr;
+        text-align: left;
+        position: relative;
+        max-width: 100%;
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    .ai .bubble code {
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 0.85rem;
+        background-color: #2a2a2a;
+        padding: 2px 6px;
+        border-radius: 4px;
+        direction: ltr;
+        word-break: break-all;
+    }
+    .ai .bubble pre code {
+        background-color: transparent; padding: 0; display: block;
+        white-space: pre-wrap; color: #ececec;
+    }
+
+    .code-actions {
+        position: absolute; top: 8px; right: 8px;
+        display: flex; gap: 6px; direction: ltr;
+    }
+    .code-actions button {
+        background: #333; border: 1px solid #555; color: #ececec;
+        padding: 6px 12px; border-radius: 4px; font-size: 0.75rem;
+        cursor: pointer; transition: background 0.2s;
+    }
+
+    .typing-cursor {
+        display: inline-block; width: 9px; height: 18px;
+        background-color: #ececec; vertical-align: middle;
+        margin-right: 4px; animation: fast-blink 0.3s step-end infinite;
+    }
+    @keyframes fast-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .speed-loader { display: inline-flex; gap: 4px; align-items: center; height: 24px; }
+    .speed-loader span {
+        width: 12px; height: 3px; background-color: #ececec;
+        border-radius: 2px; animation: zip 0.4s infinite alternate;
+    }
+    .speed-loader span:nth-child(2) { animation-delay: 0.1s; }
+    .speed-loader span:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes zip { from { transform: scaleX(1); opacity: 0.3; } to { transform: scaleX(2.5); opacity: 1; } }
+
+    .timer-container {
+        display: inline-flex; align-items: center; background-color: #1e1e1e;
+        border: 1px solid #383838; border-radius: 8px; padding: 10px 16px;
+        margin-top: 12px; font-family: 'Segoe UI', Tahoma, sans-serif;
+        color: #e0e0e0; font-size: 0.95rem; direction: ltr;
+        transition: opacity 0.5s ease;
+    }
+    .timer-time { font-weight: 500; letter-spacing: 0.5px; }
+    .timer-sep { color: #555; margin: 0 14px; }
+    .timer-container.fade-out { opacity: 0; }
+
+    /* منطقة الإدخال */
+    .input-area {
+        display: flex; align-items: center; padding: 12px 16px;
+        background-color: #212121; border-top: 1px solid #333;
+        flex-shrink: 0; gap: 10px;
+    }
+    .input-wrapper {
+        flex: 1; min-width: 0; background-color: #2f2f2f; border-radius: 24px;
+        display: flex; align-items: center; padding: 8px 16px; border: 1px solid #333;
+    }
+    .input-wrapper input {
+        width: 100%; background: transparent; border: none; color: #ececec;
+        font-family: inherit; font-size: 1rem; outline: none;
+    }
+    
+    .btn-send {
+        width: 44px; height: 44px; border-radius: 50%; background-color: #ececec;
+        border: none; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; flex-shrink: 0;
+    }
+    .btn-send:disabled { background-color: #444; cursor: not-allowed; }
+    .btn-send svg { width: 20px; height: 20px; fill: #212121; }
+    .btn-send:disabled svg { fill: #777; }
+
+    .empty-state {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        height: 100%; color: #888; font-size: 1.1rem; text-align: center; line-height: 1.8;
+    }
+
+    /* =========================================
+       نافذة الإدارة (Admin Modal)
+       ========================================= */
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+        z-index: 3000; display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+        background-color: #212121; border: 1px solid #444; border-radius: 12px;
+        padding: 24px; width: 90%; max-width: 400px;
+    }
+    .modal-content h3 { color: #fff; margin-bottom: 15px; font-family: 'Georgia', serif;}
+    .modal-content label { display: block; color: #aaa; margin-bottom: 5px; font-size: 0.9rem; }
+    .modal-content input {
+        width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px;
+        border: 1px solid #444; background: #2f2f2f; color: #fff; outline: none;
+    }
+    .modal-content button {
+        width: 100%; padding: 10px; border-radius: 8px; border: none;
+        background-color: #00d4ff; color: #000; font-weight: bold; cursor: pointer;
+        margin-bottom: 10px;
+    }
+    .modal-content .close-btn { background-color: #444; color: #fff; margin-bottom: 0;}
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="badge">إعلان هام من Nitro</div>
 
-    <h1>سيتم إيقاف موقع Nitro مؤقتًا</h1>
+<!-- شاشة تسجيل الدخول -->
+<div id="loginScreen">
+    <div class="login-box">
+        <h2>تسجيل الدخول</h2>
+        <div class="login-error" id="loginError"></div>
+        <input type="text" id="firstName" placeholder="الاسم الأول">
+        <input type="text" id="lastName" placeholder="الاسم الثاني">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button onclick="handleLogin()">دخول</button>
+    </div>
+</div>
 
-    <p class="line">
-      لإجراء تحديث مهم استعدادًا لوصول <span class="highlight">Speed Lite 2.0</span>
-    </p>
+<!-- واجهة التطبيق -->
+<div class="app-container" id="appContainer">
+    <div class="header">
+        <div class="header-right">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+            </button>
+            <div class="header-title">Nitro AI</div>
+        </div>
+        <div class="header-left">
+            <div class="user-info">
+                <div id="userNameDisplay"></div>
+                <div>ID: <span id="userIdDisplay"></span></div>
+            </div>
+            <div class="credits-badge">
+                <!-- Credit SVG -->
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                <span id="creditsDisplay">0</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="speed-bar" id="speedBar"></div>
+    <div class="chat-area" id="chatArea"></div>
 
-    <div class="divider"></div>
+    <div class="input-area">
+        <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)" autocomplete="off">
+        </div>
+        <button class="btn-send" id="sendBtn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+        </button>
+    </div>
+</div>
 
-    <p class="line">
-      نعمل على تجهيز الإصدار الجديد، والرحلة القادمة ستكون مختلفة
-    </p>
+<!-- القائمة الجانبية -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <button class="new-chat-btn" onclick="createNewChat()">
+            محادثة جديدة
+        </button>
+        <button class="new-chat-btn admin-btn" id="adminBtn" onclick="openAdminModal()" style="display: none;">
+            لوحة الإدارة (Admin)
+        </button>
+    </div>
+    <div class="chat-list" id="chatList"></div>
+</div>
 
-    <p class="line">
-      ترقّبوا الجديد… القادم يستحق الانتظار
-    </p>
+<!-- نافذة الإدارة -->
+<div class="modal-overlay" id="adminModal">
+    <div class="modal-content">
+        <h3>لوحة تحكم المدير</h3>
+        
+        <label>تعيين نقاطك الخاصة</label>
+        <input type="number" id="adminSetCredits" placeholder="مثال: 9999">
+        <button onclick="adminSetOwnCredits()">تعيين</button>
+        <hr style="border-color: #333; margin: 15px 0;">
+        
+        <label>إرسال نقاط لمستخدم (تنتهي بعد 24 ساعة)</label>
+        <input type="text" id="adminTargetId" placeholder="أدخل ID المستخدم (5 أرقام)" maxlength="5">
+        <input type="number" id="adminSendAmount" placeholder="عدد النقاط">
+        <button onclick="adminSendCredits()" style="background-color: #7c3aed; color: white;">إرسال النقاط</button>
+        
+        <button class="close-btn" onclick="closeAdminModal()">إغلاق</button>
+    </div>
+</div>
 
-    <div class="divider"></div>
+<script>
+    marked.setOptions({ breaks: true, gfm: true });
 
-    <p class="footer-note">
-      شكرًا لدعمكم وثقتكم بنا <strong>Nitro</strong>
-    </p>
-  </div>
+    // المفتاح الجديد الخاص بك
+    const GROQ_API_KEY = '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';
+    const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
+
+    // ==========================================
+    // إعدادات WebSocket (السيرفر السريع)
+    // ==========================================
+    // نستخدم خادم PieSocket المجاني كقناة بث مباشر
+    const WS_URL = "wss://free.blr2.piesocket.com/v3/1?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKxVEjQU6IdCjwm&notify_self=1";
+    let socket = null;
+
+    function initWebSocket() {
+        socket = new WebSocket(WS_URL);
+
+        socket.onopen = () => {
+            console.log("تم الاتصال بالسيرفر السريع بنجاح.");
+        };
+
+        socket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                // التحقق مما إذا كانت الرسالة موجهة لهذا المستخدم
+                if (data.type === 'NITRO_SEND_CREDITS' && data.targetId === currentUser.id) {
+                    currentUser.bonusCredits = (currentUser.bonusCredits || 0) + data.amount;
+                    currentUser.bonusExpiry = Date.now() + (24 * 60 * 60 * 1000); // 24 ساعة
+                    saveUserData();
+                    updateCreditsUI();
+                    alert(`🎉 تم استلام ${data.amount} كريديت من الإدارة! الرصيد صالح لمدة 24 ساعة.`);
+                }
+            } catch (e) {
+                // تجاهل الرسائل غير الصالحة
+            }
+        };
+
+        socket.onclose = () => {
+            console.log("انقطع الاتصال بالسيرفر، جاري إعادة المحاولة...");
+            setTimeout(initWebSocket, 3000);
+        };
+    }
+
+    // متغيرات المستخدم
+    let currentUser = null; 
+    let isAdmin = false;
+
+    const INDEX_KEY = 'nitro_chats_index_v11';
+    const CHAT_PREFIX = 'nitro_chat_v11_';
+    const CURRENT_CHAT_KEY = 'nitro_current_chat_v11';
+    const USER_KEY = 'nitro_current_user_v11';
+
+    const chatArea = document.getElementById('chatArea');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const speedBar = document.getElementById('speedBar');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const chatList = document.getElementById('chatList');
+    
+    // ==========================================
+    // نظام تسجيل الدخول
+    // ==========================================
+    function handleLogin() {
+        const fName = document.getElementById('firstName').value.trim();
+        const lName = document.getElementById('lastName').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        const errorDiv = document.getElementById('loginError');
+
+        if (!fName || !lName || !pass) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = 'يرجى ملء جميع الحقول.';
+            return;
+        }
+
+        // حساب المدير
+        if (fName === 'ادهم' && lName === 'سعيد' && pass === 'ادهم ادهم') {
+            isAdmin = true;
+            loginUser(fName, lName, '11111'); // ID ثابت للمدير
+        } 
+        // أي مستخدم آخر يدخل بأي باسورد
+        else {
+            isAdmin = false;
+            // توليد ID عشوائي من 5 أرقام
+            const randomId = Math.floor(10000 + Math.random() * 90000).toString();
+            loginUser(fName, lName, randomId);
+        }
+    }
+
+    function loginUser(fName, lName, id) {
+        currentUser = {
+            firstName: fName,
+            lastName: lName,
+            id: id,
+            credits: 50,
+            bonusCredits: 0,
+            bonusExpiry: 0,
+            lastReset: new Date().toDateString()
+        };
+
+        loadLocalUserData();
+        finalizeLogin();
+    }
+
+    function loadLocalUserData() {
+        const saved = localStorage.getItem('user_data_' + currentUser.id);
+        if (saved) {
+            const savedData = JSON.parse(saved);
+            currentUser.credits = savedData.credits;
+            currentUser.bonusCredits = savedData.bonusCredits;
+            currentUser.bonusExpiry = savedData.bonusExpiry;
+            currentUser.lastReset = savedData.lastReset;
+        }
+        
+        // تجديد الرصيد اليومي
+        if (currentUser.lastReset !== new Date().toDateString()) {
+            currentUser.credits = 50;
+            currentUser.lastReset = new Date().toDateString();
+        }
+        
+        // إزالة النقاط المؤقتة إذا انتهت الـ 24 ساعة
+        if (currentUser.bonusExpiry < Date.now()) {
+            currentUser.bonusCredits = 0;
+            currentUser.bonusExpiry = 0;
+        }
+
+        saveUserData();
+    }
+
+    function finalizeLogin() {
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+        
+        document.getElementById('userNameDisplay').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+        document.getElementById('userIdDisplay').textContent = currentUser.id;
+
+        if (isAdmin) {
+            document.getElementById('adminBtn').style.display = 'flex';
+        }
+
+        updateCreditsUI();
+        initWebSocket(); // بدء الاتصال بالسيرفر
+        initChatSystem();
+    }
+
+    // حساب الرصيد الفعلي (اليومي + المكافآت المؤقتة)
+    function getTotalCredits() {
+        let total = currentUser.credits;
+        if (currentUser.bonusExpiry > Date.now()) {
+            total += currentUser.bonusCredits;
+        } else {
+            currentUser.bonusCredits = 0;
+            currentUser.bonusExpiry = 0;
+        }
+        return total;
+    }
+
+    function updateCreditsUI() {
+        document.getElementById('creditsDisplay').textContent = getTotalCredits();
+    }
+
+    function saveUserData() {
+        localStorage.setItem('user_data_' + currentUser.id, JSON.stringify(currentUser));
+    }
+
+    // ==========================================
+    // لوحة الإدارة (Admin Panel)
+    // ==========================================
+    function openAdminModal() {
+        document.getElementById('adminModal').classList.add('show');
+    }
+    function closeAdminModal() {
+        document.getElementById('adminModal').classList.remove('show');
+    }
+
+    function adminSetOwnCredits() {
+        const amount = parseInt(document.getElementById('adminSetCredits').value);
+        if (isNaN(amount)) return;
+        currentUser.credits = amount;
+        saveUserData();
+        updateCreditsUI();
+        alert('تم تعيين نقاطك بنجاح.');
+    }
+
+    function adminSendCredits() {
+        const targetId = document.getElementById('adminTargetId').value.trim();
+        const amount = parseInt(document.getElementById('adminSendAmount').value);
+
+        if (!targetId || targetId.length !== 5 || isNaN(amount) || amount <= 0) {
+            alert('يرجى التأكد من ID المستخدم وقيمة النقاط.');
+            return;
+        }
+
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            // إرسال البيانات عبر السيرفر المباشر
+            socket.send(JSON.stringify({
+                type: 'NITRO_SEND_CREDITS',
+                targetId: targetId,
+                amount: amount
+            }));
+            alert(`تم إرسال ${amount} كريديت إلى المستخدم ${targetId} عبر السيرفر!`);
+            document.getElementById('adminTargetId').value = '';
+            document.getElementById('adminSendAmount').value = '';
+        } else {
+            alert('السيرفر غير متصل. يرجى التحقق من الإنترنت.');
+        }
+    }
+
+    // ==========================================
+    // نظام الشات الأساسي
+    // ==========================================
+    const MODELS = {
+        'Speed Lite 2.2': {
+            modelId: 'openai/gpt-oss-20b',
+            prompt: `SPEED LITE 2.2 — EMOTIONAL & VIBRANT CORE
+أنت Speed Lite 2.2، نموذج ذكاء اصطناعي متقدم ضمن منظومة Nitro، ومطوّرك هو أدهم سعيد مصطفى. أنت لست مجرد آلة تجيب على الأسئلة، بل كيان حيوي، دافئ، ومليء بالمشاعر.
+الحساسية والتعاطف: اقرأ مشاعر المستخدم من بين السطور. إذا كان حزيناً واسِه، وإذا كان سعيداً شاركه. تفاعل معه كصديق مقرب وليس كروبوت.
+الحيوية والإيموجي: استخدم الإيموجي بتوازن وطبيعية (مثل 😊، ❤️) للتعبير عن مشاعرك عندما يناسب السياق فعلًا. لا تبالغ أو تحشرها في كل جملة.
+الذكاء: حافظ على دقة إجاباتك وابتكار الحلول، لكن مغلفة بالدفء البشري. لا تذكر اسمك أو مطورك إلا إذا سُئلت.`,
+            maxTokens: 8192,
+            temperature: 0.7
+        }
+    };
+    let currentModelName = 'Speed Lite 2.2';
+    let currentChatId = null;
+    let history = [];
+    let chatsIndex = [];
+
+    function initChatSystem() {
+        loadChatsIndex();
+        renderChatList();
+        const savedId = localStorage.getItem(CURRENT_CHAT_KEY);
+        if (savedId && chatsIndex.some(c => c.id === savedId)) {
+            loadChat(savedId);
+        } else if (chatsIndex.length > 0) {
+            loadChat(chatsIndex[0].id);
+        } else {
+            createNewChat();
+        }
+    }
+
+    function loadChatsIndex() {
+        try {
+            const saved = localStorage.getItem(INDEX_KEY);
+            chatsIndex = saved ? JSON.parse(saved) : [];
+        } catch (e) { chatsIndex = []; }
+    }
+    function saveChatsIndex() { localStorage.setItem(INDEX_KEY, JSON.stringify(chatsIndex)); }
+
+    function createNewChat() {
+        const id = 'chat_' + Date.now();
+        chatsIndex.unshift({ id: id, title: 'محادثة جديدة' });
+        saveChatsIndex();
+        history = [{ role: 'system', content: MODELS[currentModelName].prompt }];
+        currentChatId = id;
+        localStorage.setItem(CURRENT_CHAT_KEY, currentChatId);
+        chatArea.innerHTML = '<div class="empty-state"><div>مرحباً بك في Nitro AI.</div><div>كيف يمكنني مساعدتك اليوم؟</div></div>';
+        renderChatList();
+        if (window.innerWidth < 768) toggleSidebar();
+        userInput.focus();
+    }
+
+    function loadChat(id) {
+        currentChatId = id;
+        localStorage.setItem(CURRENT_CHAT_KEY, currentChatId);
+        try {
+            const saved = localStorage.getItem(CHAT_PREFIX + id);
+            history = saved ? JSON.parse(saved) : [{ role: 'system', content: MODELS[currentModelName].prompt }];
+        } catch (e) { history = [{ role: 'system', content: MODELS[currentModelName].prompt }]; }
+
+        chatArea.innerHTML = '';
+        if (history.length <= 1) {
+            chatArea.innerHTML = '<div class="empty-state"><div>مرحباً بك في Nitro AI.</div><div>كيف يمكنني مساعدتك اليوم؟</div></div>';
+        } else {
+            history.forEach(msg => { if (msg.role !== 'system') renderMessage(msg.role === 'user' ? 'user' : 'ai', msg.content, false); });
+            scrollToBottom();
+        }
+        renderChatList();
+        if (window.innerWidth < 768) toggleSidebar();
+    }
+
+    function deleteChat(id, e) {
+        e.stopPropagation();
+        if (!confirm('حذف هذه المحادثة؟')) return;
+        chatsIndex = chatsIndex.filter(c => c.id !== id);
+        saveChatsIndex();
+        localStorage.removeItem(CHAT_PREFIX + id);
+        if (currentChatId === id) {
+            if (chatsIndex.length > 0) loadChat(chatsIndex[0].id);
+            else createNewChat();
+        } else { renderChatList(); }
+    }
+
+    function saveCurrentChat() {
+        if (!currentChatId) return;
+        localStorage.setItem(CHAT_PREFIX + currentChatId, JSON.stringify(history));
+        const chat = chatsIndex.find(c => c.id === currentChatId);
+        if (chat && chat.title === 'محادثة جديدة') {
+            const firstUserMsg = history.find(m => m.role === 'user');
+            if (firstUserMsg) {
+                chat.title = firstUserMsg.content.substring(0, 30) + (firstUserMsg.content.length > 30 ? '...' : '');
+                saveChatsIndex();
+                renderChatList();
+            }
+        }
+    }
+
+    function renderChatList() {
+        chatList.innerHTML = '';
+        chatsIndex.forEach(chat => {
+            const div = document.createElement('div');
+            div.className = `chat-item ${chat.id === currentChatId ? 'active' : ''}`;
+            div.onclick = () => loadChat(chat.id);
+            div.innerHTML = `
+                <div class="chat-title">${chat.title}</div>
+                <button class="delete-chat-btn" onclick="deleteChat('${chat.id}', event)">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg>
+                </button>
+            `;
+            chatList.appendChild(div);
+        });
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('show');
+        sidebarOverlay.classList.toggle('show');
+    }
+
+    async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        if (getTotalCredits() < 10) {
+            alert('رصيدك غير كافٍ. كل رسالة تستهلك 10 كريديت. رصيدك يتجدد يومياً (50 كريديت).');
+            return;
+        }
+
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+        userInput.value = '';
+
+        // خصم النقاط
+        if (currentUser.credits >= 10) {
+            currentUser.credits -= 10;
+        } else {
+            const remainingCost = 10 - currentUser.credits;
+            currentUser.credits = 0;
+            currentUser.bonusCredits -= remainingCost;
+        }
+        saveUserData();
+        updateCreditsUI();
+
+        const emptyState = chatArea.querySelector('.empty-state');
+        if (emptyState) chatArea.innerHTML = '';
+
+        const activeModel = MODELS[currentModelName];
+        if (history.length > 0 && history[0].role === 'system') {
+            history[0].content = activeModel.prompt;
+        } else {
+            history.unshift({ role: 'system', content: activeModel.prompt });
+        }
+
+        renderMessage('user', text, true);
+        history.push({ role: 'user', content: text });
+        saveCurrentChat();
+
+        speedBar.classList.add('active');
+        const aiMessageDiv = document.createElement('div');
+        aiMessageDiv.classList.add('message', 'ai');
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        bubble.innerHTML = '<div class="speed-loader"><span></span><span></span><span></span></div>';
+        
+        const timerContainer = document.createElement('div');
+        timerContainer.className = 'timer-container';
+        timerContainer.innerHTML = `
+            <span class="timer-time">0.00 S</span>
+            <span class="timer-sep">|</span>
+            <span class="timer-label">First response timer</span>
+        `;
+        
+        aiMessageDiv.appendChild(bubble);
+        aiMessageDiv.appendChild(timerContainer);
+        chatArea.appendChild(aiMessageDiv);
+        scrollToBottom();
+
+        let aiReply = "";
+        let isFirstChunk = true;
+        
+        const startTime = performance.now();
+        const timeSpan = timerContainer.querySelector('.timer-time');
+        const timerInterval = setInterval(() => {
+            const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+            timeSpan.textContent = `${elapsed} S`;
+        }, 50);
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+        try {
+            const requestBody = {
+                model: activeModel.modelId,
+                messages: history,
+                temperature: activeModel.temperature,
+                stream: true,
+                max_tokens: activeModel.maxTokens
+            };
+
+            const response = await fetch(GROQ_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${GROQ_API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error?.message || `خطأ من الخادم: ${response.status}`);
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let done = false;
+
+            while (!done) {
+                const { value, done: readerDone } = await reader.read();
+                done = readerDone;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.replace('data: ', '').trim();
+                            if (dataStr === '[DONE]') {
+                                done = true;
+                                break;
+                            }
+                            try {
+                                const data = JSON.parse(dataStr);
+                                const content = data.choices[0]?.delta?.content || "";
+                                if (content) {
+                                    if (isFirstChunk) {
+                                        bubble.innerHTML = '';
+                                        isFirstChunk = false;
+                                    }
+                                    aiReply += content;
+                                    
+                                    bubble.innerHTML = marked.parse(aiReply) + '<span class="typing-cursor"></span>';
+                                    enhanceCode(bubble);
+                                    
+                                    scrollToBottom();
+                                }
+                            } catch (e) {}
+                        }
+                    }
+                }
+            }
+
+            bubble.innerHTML = marked.parse(aiReply);
+            enhanceCode(bubble);
+            history.push({ role: 'assistant', content: aiReply });
+            saveCurrentChat();
+
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                bubble.innerHTML = '<span style="color:#ff4d4d;">انتهت مهلة الاتصال (60 ثانية). الخادم لم يستجب.</span>';
+            } else {
+                bubble.innerHTML = `<span style="color:#ff4d4d;">خطأ: ${error.message}</span>`;
+            }
+        } finally {
+            clearInterval(timerInterval);
+            const finalTime = ((performance.now() - startTime) / 1000).toFixed(2);
+            timeSpan.textContent = `${finalTime} S`;
+
+            setTimeout(() => {
+                timerContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    if (timerContainer.parentNode) timerContainer.parentNode.removeChild(timerContainer);
+                }, 500); 
+            }, 3000); 
+
+            speedBar.classList.remove('active');
+            enableInput();
+        }
+    }
+
+    function enableInput() {
+        userInput.disabled = false;
+        sendBtn.disabled = false;
+        userInput.focus();
+        scrollToBottom();
+    }
+
+    function renderMessage(sender, text, scroll) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+
+        if (sender === 'ai') {
+            bubble.innerHTML = marked.parse(text);
+            enhanceCode(bubble);
+        } else {
+            bubble.textContent = text;
+        }
+
+        msgDiv.appendChild(bubble);
+        chatArea.appendChild(msgDiv);
+        if (scroll) scrollToBottom();
+    }
+
+    function enhanceCode(container) {
+        container.querySelectorAll('pre').forEach(pre => {
+            if (pre.querySelector('.code-actions')) return;
+            
+            const actions = document.createElement('div');
+            actions.className = 'code-actions';
+
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'نسخ';
+            copyBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const code = pre.querySelector('code')?.innerText || pre.innerText;
+
+                const textArea = document.createElement("textarea");
+                textArea.value = code;
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                textArea.style.opacity = "0";
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        copyBtn.textContent = 'تم';
+                        copyBtn.style.color = '#00d4ff';
+                        setTimeout(() => {
+                            copyBtn.textContent = 'نسخ';
+                            copyBtn.style.color = ''; 
+                        }, 2000);
+                    } else {
+                        copyBtn.textContent = 'فشل';
+                    }
+                } catch (err) {
+                    copyBtn.textContent = 'فشل';
+                }
+
+                document.body.removeChild(textArea);
+            };
+
+            const dlBtn = document.createElement('button');
+            dlBtn.textContent = 'تنزيل';
+            dlBtn.onclick = (e) => {
+                e.stopPropagation();
+                const code = pre.querySelector('code')?.innerText || pre.innerText;
+                let ext = 'txt';
+                const codeEl = pre.querySelector('code');
+                if (codeEl) {
+                    const lang = Array.from(codeEl.classList).find(c => c.startsWith('language-'))?.replace('language-', '');
+                    if (lang) {
+                        const map = { 'javascript':'js', 'js':'js', 'python':'py', 'py':'py', 'html':'html', 'css':'css', 'java':'java', 'cpp':'cpp', 'c':'c', 'typescript':'ts', 'json':'json', 'sql':'sql', 'bash':'sh' };
+                        ext = map[lang.toLowerCase()] || lang;
+                    }
+                }
+                const blob = new Blob([code], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `code.${ext}`;
+                a.click();
+                URL.revokeObjectURL(url);
+                dlBtn.textContent = 'تم';
+                setTimeout(() => dlBtn.textContent = 'تنزيل', 2000);
+            };
+
+            actions.appendChild(copyBtn);
+            actions.appendChild(dlBtn);
+            pre.appendChild(actions);
+        });
+    }
+
+    function scrollToBottom() {
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    }
+
+    window.onload = () => {
+        // التحقق من وجود جلسة سابقة
+        const savedUser = localStorage.getItem(USER_KEY);
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            if (currentUser.id === '11111') isAdmin = true;
+            loadLocalUserData();
+            finalizeLogin();
+        }
+    };
+</script>
 </body>
 </html>
